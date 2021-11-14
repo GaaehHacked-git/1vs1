@@ -1,0 +1,7 @@
+name: 1vs1
+version: 1.0
+author: GaaehHacked
+main: de.gaaehhacked.Main
+
+commands:
+    setup:

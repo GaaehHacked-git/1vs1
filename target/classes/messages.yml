@@ -1,0 +1,4 @@
+#Join/Quit Messages
+player:
+    join: '&7%player% hast joined the game &8[&a%player-size%&7/&4%max-players%&8]'
+    quit: '&7%player% hast left the game &8[&a%player-size%&7/&4%max-players%&8]'
