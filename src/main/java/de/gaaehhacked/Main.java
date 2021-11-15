@@ -29,21 +29,7 @@ public class Main extends JavaPlugin {
             gameStateManager = new GameStateManager(plugin);
             LobbyCountDown lobbyCountDown = new LobbyCountDown();
             lobbyCountDown.startIDL();
-            if(!getDataFolder().exists()){
-                getDataFolder().mkdirs();
-            }
-
-            if(!new File(getDataFolder() + "//spawns").exists()){
-                new File("plugins//1vs1//spawns").mkdir();
-            }
-
-            if (!new File(getDataFolder(), "config.yml").exists()) {
-                plugin.saveResource("config.yml", false);
-            }
-
-            if (!new File(getDataFolder(), "messages.yml").exists()) {
-                plugin.saveResource("messages.yml", false);
-            }
+            plugin.saveDefaultConfig();
             configFile = new File(getDataFolder() + "//config.yml");
             messageFile = new File(getDataFolder() + "//messages.yml");
             gameStateManager.setGameStates(GameState.LOBBY_STATE);

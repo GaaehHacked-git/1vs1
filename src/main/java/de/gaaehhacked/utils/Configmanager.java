@@ -22,6 +22,34 @@ public class Configmanager  {
         }
     }
 
+    public String getString(String string){
+        return getCfg().getString(string);
+    }
+
+    public int getInt(String string){
+        return getCfg().getInt(string);
+    }
+
+    public boolean getBoolean(String string){
+        return getCfg().getBoolean(string);
+    }
+
+    public Long getLong(String string){
+        return getCfg().getLong(string);
+    }
+
+    public double getDouble(String string){
+        return getCfg().getDouble(string);
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public YamlConfiguration getCfg() {
+        return cfg;
+    }
+
     public boolean exists(){
         if(file.exists()){
             return true;
