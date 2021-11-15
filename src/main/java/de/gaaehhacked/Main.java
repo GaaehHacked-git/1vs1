@@ -1,9 +1,11 @@
 package de.gaaehhacked;
 
 import de.gaaehhacked.commands.Setup_CMD;
+import de.gaaehhacked.countdowns.countdowns.LobbyCountDown;
 import de.gaaehhacked.gamestate.GameState;
 import de.gaaehhacked.gamestate.GameStateManager;
 import de.gaaehhacked.listener.PlayerConnect;
+import de.gaaehhacked.utils.SetupManager;
 import de.gaaehhacked.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -22,23 +24,34 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.plugin = this;
-        gameStateManager = new GameStateManager(plugin);
-        if(!new File(getDataFolder(), "config.yml").exists()) {
-            plugin.saveResource("config.yml", false);
+        if(SetupManager.getIsCompleted()) {
+            this.plugin = this;
+            gameStateManager = new GameStateManager(plugin);
+            LobbyCountDown lobbyCountDown = new LobbyCountDown();
+            lobbyCountDown.startIDL();
+            if(!getDataFolder().exists()){
+                getDataFolder().mkdirs();
+            }
+
+            if(!new File(getDataFolder() + "//spawns").exists()){
+                new File("plugins//1vs1//spawns").mkdir();
+            }
+
+            if (!new File(getDataFolder(), "config.yml").exists()) {
+                plugin.saveResource("config.yml", false);
+            }
+
+            if (!new File(getDataFolder(), "messages.yml").exists()) {
+                plugin.saveResource("messages.yml", false);
+            }
+            configFile = new File(getDataFolder() + "//config.yml");
+            messageFile = new File(getDataFolder() + "//messages.yml");
+            gameStateManager.setGameStates(GameState.LOBBY_STATE);
+            Bukkit.getPluginManager().registerEvents(new PlayerConnect(this), this);
+
+            getCommand("setup").setExecutor(new Setup_CMD());
+            checkForUpdates(true);
         }
-
-        if(!new File(getDataFolder(), "messages.yml").exists()) {
-            plugin.saveResource("messages.yml", false);
-        }
-
-        gameStateManager.setGameStates(GameState.LOBBY_STATE);
-        Bukkit.getPluginManager().registerEvents(new PlayerConnect(this), this);
-
-        getCommand("setup").setExecutor(new Setup_CMD());
-        configFile = new File(getDataFolder(), "config.yml");
-        messageFile = new File(getDataFolder(), "messages.yml");
-        checkForUpdates(true);
     }
 
     @Override

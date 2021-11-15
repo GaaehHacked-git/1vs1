@@ -11,12 +11,14 @@ import java.io.IOException;
 public class SpawnManager {
 
     File file;
-    YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+    YamlConfiguration cfg;
 
     String name;
 
     public SpawnManager(String name){
         this.name = name;
+        file = new File("plugins//1vs1//spawns//" + name + ".yml");
+        cfg = YamlConfiguration.loadConfiguration(file);
         new File("plugins//1vs1//spawns//" + name + ".yml");
         if(new File("plugins//1vs1//spawns").exists())
             new File("plugins//1vs1//spawns").mkdirs();
@@ -51,9 +53,13 @@ public class SpawnManager {
     }
 
     public boolean ifSpawnExists(){
-        if(new File("plugins//1vs1//spawns//" + name + ".yml").exists()){
-            return true;
-        }else {
+        try {
+            if(new File("plugins//1vs1//spawns//" + name + ".yml").exists()){
+                return true;
+            }else {
+                return false;
+            }
+        }catch (Exception e){
             return false;
         }
     }

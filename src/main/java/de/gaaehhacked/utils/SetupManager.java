@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SetupManager {
@@ -17,10 +18,10 @@ public class SetupManager {
     private static Location spawnblue;
     private static Boolean isCompleted;
 
-    public void startSetup(Player player){
+    public static void startSetup(Player player){
         p = player;
         step = 1;
-        player.sendMessage("Wilkommen im Setup von [1vs1] Bitte setze den Lobby-Spawn mit /setup lobbyspawn");
+        p.sendMessage("Wilkommen im Setup von [1vs1] Bitte setze den Lobby-Spawn mit /setup lobbyspawn");
     }
 
     public static void finishSetup() throws IOException {
@@ -37,7 +38,11 @@ public class SetupManager {
     }
 
     public static Boolean getIsCompleted() {
-        return isCompleted;
+        if(new SpawnManager("spawn").ifSpawnExists()){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public static void setIsCompleted(Boolean isCompleted) {

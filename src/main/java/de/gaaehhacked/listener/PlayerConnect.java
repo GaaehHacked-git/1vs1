@@ -4,6 +4,7 @@ import de.gaaehhacked.Main;
 import de.gaaehhacked.countdowns.countdowns.LobbyCountDown;
 import de.gaaehhacked.gamestate.GameState;
 import de.gaaehhacked.gamestate.GameStateManager;
+import de.gaaehhacked.utils.SetupManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,32 +24,37 @@ public class PlayerConnect implements Listener {
     LobbyCountDown lobbyCountDown;
     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(plugin.getMessageFile());
 
-
     public PlayerConnect(Main plugin){
         this.plugin = plugin;
+        lobbyCountDown = new LobbyCountDown();
+        gameStateManager = new GameStateManager(plugin);
     }
 
     @EventHandler
     public void onHandle(PlayerJoinEvent e) {
-        lobbyCountDown = new LobbyCountDown();
-        gameStateManager = new GameStateManager(plugin);
-        if (!lobbyCountDown.hasRoundStated) {
-            if(players.size() < GameState.MAX_PLAYERS) {
-                Player p = e.getPlayer();
-                players.add(p);
-                Bukkit.broadcastMessage(cfg.getString("player.join").replace("%player%", e.getPlayer().getName()).replace("%player-size%", "" + players.size()).replace("%max-players%", "" + GameState.MAX_PLAYERS));
-                if (players.size() >= GameState.MIN_PLAYERS) {
-                    lobbyCountDown.stopIDL();
+        e.setJoinMessage(null);
+        if(SetupManager.getIsCompleted()) {
+            if (!lobbyCountDown.hasRoundStated) {
+                if (players.size() < GameState.MAX_PLAYERS) {
+                    Player p = e.getPlayer();
+                    players.add(p);
+                    Bukkit.broadcastMessage(cfg.getString("player.join").replace("%player%", e.getPlayer().getName()).replace("%player-size%", "" + players.size()).replace("%min-players%", "" + GameState.MIN_PLAYERS).replace("&", "§"));
+                    if (players.size() >= GameState.MIN_PLAYERS) {
+                        lobbyCountDown.stopIDL();
+                        lobbyCountDown.start();
+                    }
+                } else {
+                    e.getPlayer().setGameMode(GameMode.SPECTATOR);
+                    e.getPlayer().sendMessage("Du bist nun im Spectator Modus, da die Runde bereits voll ist!");
+                    caster.add(e.getPlayer());
                 }
-            }else {
+            } else {
                 e.getPlayer().setGameMode(GameMode.SPECTATOR);
-                e.getPlayer().sendMessage("Du bist nun im Spectator Modus, da die Runde bereits voll ist!");
+                e.getPlayer().sendMessage("Du bist nun im Spectator Modus, da die Runde bereits gestartet ist!");
                 caster.add(e.getPlayer());
             }
-        }else{
-            e.getPlayer().setGameMode(GameMode.SPECTATOR);
-            e.getPlayer().sendMessage("Du bist nun im Spectator Modus, da die Runde bereits gestartet ist!");
-            caster.add(e.getPlayer());
+        }else {
+            SetupManager.startSetup(e.getPlayer());
         }
     }
 

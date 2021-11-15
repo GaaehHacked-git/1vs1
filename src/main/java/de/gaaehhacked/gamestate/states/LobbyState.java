@@ -13,8 +13,6 @@ public class LobbyState extends GameState {
 
     @Override
     public void start() {
-        this.lobbyCountDown = new LobbyCountDown();
-        lobbyCountDown.startIDL();
     }
 
     @Override

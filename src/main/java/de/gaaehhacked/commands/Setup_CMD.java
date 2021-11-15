@@ -18,19 +18,23 @@ public class Setup_CMD implements CommandExecutor {
         Player p = (Player) commandSender;
         if(SetupManager.isSetupStarted()) {
             if (args.length == 0) {
-
+                p.sendMessage("falsche benutzung");
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("lobbyspawn")) {
                     if (SetupManager.getStep() == 1) {
                         p.sendMessage("Du hast erfolgreich den Lobbyspawn gesetzt, bitte setze nun den Spawn für Team §4ROT §rmit /setup spawnrot");
                         SetupManager.setSpawn(p.getLocation());
                         SetupManager.setStep(2);
+                    }else {
+                        p.sendMessage("falsche benutzung");
                     }
                 }else if (args[0].equalsIgnoreCase("spawnrot")) {
                     if (SetupManager.getStep() == 2) {
                         p.sendMessage("Du hast erfolgreich den spawn für team Rot gesetzt, bitte setze nun den Spawn für Team §2BLAU §rmit /setup spawnblau");
                         SetupManager.setSpawnred(p.getLocation());
                         SetupManager.setStep(3);
+                    }else {
+                        p.sendMessage("falsche benutzung");
                     }
                 }else if (args[0].equalsIgnoreCase("spawnblau")) {
                     if (SetupManager.getStep() == 3) {
@@ -43,10 +47,12 @@ public class Setup_CMD implements CommandExecutor {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                    }else {
+                        p.sendMessage("falsche benutzung");
                     }
                 }
             } else if (args.length == 2) {
-
+                p.sendMessage("falsche benutzung");
             }
         }else{
             p.sendMessage("Du bist aktuell nicht im Setup!");

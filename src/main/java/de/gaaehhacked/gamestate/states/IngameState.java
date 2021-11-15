@@ -21,6 +21,7 @@ public class IngameState extends GameState {
     @Override
     public void start() {
         lobbyCountDown.hasRoundStated = true;
+        Bukkit.broadcastMessage("ingamestate");
         for(Player p : PlayerConnect.getPlayers()){
             p.teleport(new Location(Bukkit.getWorld("world"), 0, 0, 0));
         }

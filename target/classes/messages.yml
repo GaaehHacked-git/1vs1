@@ -1,4 +1,18 @@
-#Join/Quit Messages
+#----------------------------------------------------------------------------------------------------------------------#
+# [1vs1] created by GaaehHacked
+# Discord: ᴠ̷ᴇ̷ɴ̷ᴏ̷ᴍ̷#0187
+# Version: 1.0
+# This plugin is copy-right saved also do not sell, re-code or say thats yours!
+#----------------------------------------------------------------------------------------------------------------------#
+
 player:
-    join: '&7%player% hast joined the game &8[&a%player-size%&7/&4%max-players%&8]'
-    quit: '&7%player% hast left the game &8[&a%player-size%&7/&4%max-players%&8]'
+    join: '&7%player% hast joined the game &8[&a%player-size%&7/&4%min-players%&8]'
+    quit: '&7%player% hast left the game &8[&a%player-size%&7/&4%min-players%&8]'
+    countdown-title: '&aStart in'
+    countdown-title2: '&c%secounds% secounds'
+
+countdown:
+    idl: '&7Wait for more players... &8[&a%players%&7/&4%min-players%&8]'
+    lobby: '&7The game start in %secounds% secounds'
+    lobby2: '&7The game start in one secound'
+    end: '&7The server restart in %secounds% secounds'
